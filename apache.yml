@@ -23,11 +23,23 @@
         name: git
         state: present
 
+    - name: Remove /var/www/html directory if exists
+      file:
+        path: /var/www/html
+        state: absent
+
+    - name: Recreate /var/www/html directory
+      file:
+        path: /var/www/html
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
     - name: Clone app repo to /var/www/html
       git:
         repo: 'https://github.com/Jeevan-priyanka-Satyavolu/myapp-ansible.git'
         dest: /var/www/html
-        force: yes
 
     - name: Set proper permissions on /var/www/html
       file:
