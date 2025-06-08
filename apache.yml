@@ -1,19 +1,18 @@
 ---
-- name: Install Apache on Ubuntu
-  hosts: webservers
-  become: yes  # run as sudo
+- hosts: webservers 
+  become: True
   tasks:
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-
-    - name: Install Apache2
-      apt:
-        name: apache2
-        state: present
-
-    - name: Ensure Apache2 is running
+    - name: Install packages
+      yum:
+        name: "httpd"
+        state: "present"
+    - name: Start Apache server
       service:
-        name: apache2
+        name: httpd
         state: started
-        enabled: yes
+        enabled: True
+    - name: Deploy static website
+      copy:
+        src: index.html
+        dest: /var/www/html/
+...
